@@ -119,3 +119,10 @@ class RepoBranches extends Vue  {
     public readonly branch!: string;
 }
 ```
+
+## Build this package and publish:
+```bash
+yarn build
+# npm login
+npm publish
+```
