@@ -1,0 +1,27 @@
+{
+  "name": "vuex-module-decorators-state",
+  "version": "1.0.0",
+  "description": "Additional decorators for vuex-module-decorators npm package",
+  "main": "index.ts",
+  "repository": "git@github.com:akoidan/vuex-module-decorators-state.git",
+  "author": "Andrew Koidan <deathangel908@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "rm -rf ./lib && tsc -p src/tsconfig.json && rollup  -c ./rollup.config.js && uglifyjs lib/index.js -o lib/index.js --compress",
+    "test": "mocha",
+    "report": "nyc mocha",
+    "lcov": "nyc report --reporter=text-lcov > coverage.lcov",
+    "codecov": "codecov",
+    "lint:check": "gts check",
+    "lint:fix": "gts fix",
+    "posttest": "npm run check"
+  },
+  "peerDependencies": {
+    "vuex-module-decorators": "*"
+  },
+  "devDependencies": {
+    "vue": "^2.6.12",
+    "vuex": "^3.5.1",
+    "vuex-module-decorators": "^1.0.1"
+  }
+}
