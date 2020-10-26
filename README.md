@@ -1,27 +1,50 @@
 # vuex-module-decorators-state
+[![HitCount](http://hits.dwyl.com/akoidan/vuex-module-decorators-state.svg)](http://hits.dwyl.com/akoidan/vuex-module-decorators-state) ![npm](https://img.shields.io/npm/v/vuex-module-decorators-state)
 
-Allows injecting state directory to component by [decorator](https://github.com/championswimmer/vuex-module-decorators/issues/191)
-Generics bellow ensure that this decorator can be only applied to the same type as vuexModule support
-
-Check [vue-webpack-typescript](https://github.com/akoidan/vue-webpack-typescript) project for example.
+You need this package if you use:
+ - Vue2
+ - Typescript
+ - vue-class-component or vue-property-decorator
+ - vuex-module-decorators
  
-Let's say you have defined your vuex-module like this:
+This packages adds easy lifehack to maintype strong typing and easy integration for injecting vuex state to vue class-based component. Check [this issue](https://github.com/championswimmer/vuex-module-decorators/issues/191)
 
+## Example
+Want to inject your state like this with typesafe?
 
-**types.ts**:
 ```typescript
+    @State
+    public readonly user!: user;
+```
+
+Check this [vue-webpack-typescript](https://github.com/akoidan/vue-webpack-typescript) or follow the example bellow.
+
+## Install 
+```bash
+yarn add vuex-module-decorators-state
+```
+ 
+## How to use?
+
+1. Extract common vuex-module-decorator interfaces into a separate file, let's say **types.ts**:
+
+```typescript
+// Typescript type of the state you want to inject
 export interface Branch {
   "name": string;
 }
-
-export interface IGithubState {
-  branch: Branch;
-}
-
+// Root vuex store.
 export interface IRootState {
   github: IGithubState;
 }
+
+// Store module you want to inject. If you have only single store module. You won't need interface above
+export interface IGithubState {
+  branch: Branch;
+}
 ```
+
+2. Create your store:
 
 **store.ts**:
 ```typescript
@@ -44,21 +67,22 @@ class GithubModule extends VuexModule implements IGithubState {
   public branch: Branch = {name: "Master branch"};
 }
 
-const githubModule: GithubModule = getModule(GithubModule);
+export const githubModule: GithubModule = getModule(GithubModule);
 
-/*
- * TPN - TypePropertyName
- * TCT - TypeConsumerType
- * the generics bellow are inherited strictly from stateDecoratorFactory, see its docs
- */
-const GithubState: <TCT extends (TCT[TPN] extends GithubModule[TPN] ? unknown : never),
+```
+3. Create decorator with factory method by passing githubModule:
+```typescript
+export const GithubState = stateDecoratorFactory(githubModule);
+```
+You don't need to declare type of the var in order for typescript to give you compilation errors if type missmatches. But if you want to have types, there you go:
+
+```typescript
+export const GithubState: <TCT extends (TCT[TPN] extends GithubModule[TPN] ? unknown : never),
   TPN extends (keyof TCT & keyof GithubModule)>(vueComponent: TCT, fileName: TPN) => void =
     stateDecoratorFactory(githubModule);
-
-export {GithubState, githubModule};
 ```
 
-## And use it everywhere in your vue Components:
+4. Apply decorator anywhere in your components:
 ```vue
 <template>
  <div>
