@@ -2,6 +2,8 @@
 
 Allows injecting state directory to component by [decorator](https://github.com/championswimmer/vuex-module-decorators/issues/191)
 Generics bellow ensure that this decorator can be only applied to the same type as vuexModule support
+
+Check [vue-webpack-typescript](https://github.com/akoidan/vue-webpack-typescript) project for example.
  
 Let's say you have defined your vuex-module like this:
 
