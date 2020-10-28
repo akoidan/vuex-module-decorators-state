@@ -1,6 +1,6 @@
 {
   "name": "vuex-module-decorators-state",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Additional decorators for vuex-module-decorators npm package",
   "main": "lib/index.js",
   "repository": "git@github.com:akoidan/vuex-module-decorators-state.git",
