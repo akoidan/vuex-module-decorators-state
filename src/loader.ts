@@ -115,4 +115,4 @@ function HandleLoading<T extends InstanceType<ClassType>>({loadingPropName, errP
 }
 
 
-export {HandleLoading, AlertModel, AlertType, getUniqueId}
+export {HandleLoading, AlertModel, AlertType, getUniqueId, ValueFilterForKey, ClassType}

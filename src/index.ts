@@ -1,3 +1,3 @@
-export {HandleLoading, AlertModel, AlertType, getUniqueId} from './loader'
+export {HandleLoading, AlertModel, AlertType, getUniqueId, ValueFilterForKey, ClassType} from './loader'
 
-export {stateDecoratorFactory,} from './vuex'
+export {stateDecoratorFactory} from './vuex'
