@@ -1,15 +1,17 @@
 # vuex-module-decorators-state
 [![HitCount](http://hits.dwyl.com/akoidan/vuex-module-decorators-state.svg)](http://hits.dwyl.com/akoidan/vuex-module-decorators-state) ![npm](https://img.shields.io/npm/v/vuex-module-decorators-state)
 
+
+## 1. @State
 You need this package if you use:
  - Vue2
  - Typescript
  - vue-class-component or vue-property-decorator
  - vuex-module-decorators
  
-This packages adds easy lifehack to maintype strong typing and easy integration for injecting vuex state to vue class-based component. Check [this issue](https://github.com/championswimmer/vuex-module-decorators/issues/191)
+This decorator adds an easy life-hack to maintain strong typing and easy integration for injecting vuex state to vue class-based component. Check [this issue](https://github.com/championswimmer/vuex-module-decorators/issues/191)
 
-## Example
+### Example
 Want to inject your state like this with typesafe?
 
 ```typescript
@@ -19,12 +21,12 @@ Want to inject your state like this with typesafe?
 
 Check this [vue-webpack-typescript](https://github.com/akoidan/vue-webpack-typescript) or follow the example bellow.
 
-## Install 
+### Install 
 ```bash
 yarn add vuex-module-decorators-state
 ```
  
-## How to use?
+### How to use?
 
 1. Extract common vuex-module-decorator interfaces into a separate file, let's say **types.ts**:
 
@@ -52,7 +54,6 @@ import Vuex, {Store} from "vuex";
 import Vue from "vue";
 import {Branch, IGithubState, IRootState} from "@/types";
 import {Module, Mutation, VuexModule, getModule} from "vuex-module-decorators";
-import {stateDecoratorFactory} from 'vuex-module-decorators-state'
 
 Vue.use(Vuex);
 
@@ -72,6 +73,7 @@ export const githubModule: GithubModule = getModule(GithubModule);
 ```
 3. Create decorator with factory method by passing githubModule:
 ```typescript
+import {stateDecoratorFactory} from 'vuex-module-decorators-state'
 export const GithubState = stateDecoratorFactory(githubModule);
 ```
 You don't need to declare type of the var in order for typescript to give you compilation errors if type missmatches. But if you want to have types, there you go:
@@ -120,7 +122,29 @@ class RepoBranches extends Vue  {
 }
 ```
 
-## Build this package and publish:
+
+## 2. @HandleLoading
+
+This decorators wraps vue component with `with` block, that wraps the function and does:
+ - Triggers loading state to true on start, and false on finish
+ - Sets error message if it occurs
+ 
+Check this [vue-webpack-typescript](https://github.com/akoidan/vue-webpack-typescript) or follow the example bellow.:
+ ```typescript
+import {HandleLoading} from 'vuex-module-decorators-state'
+
+ class MyComp extends Vue {
+   public serverError: string = ""; // this would result an error string
+   public loading: boolean = false; // this would turn to true on start, and to false on finish
+   @HandleLoading({errPropNameOrCB: "serverError", loadingPropName: "loading"})
+   private async submitForm(): Promise<void> {
+     // do some action
+   }
+ }
+ ```
+
+
+### Build this package and publish:
 ```bash
 yarn build
 # npm login
